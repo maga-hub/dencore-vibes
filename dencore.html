@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DENCORE VIBES aesthetic</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #E6E6E6;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      z-index: 1;
+    }
+    img.main {
+      max-width: 90%;
+      height: auto;
+      animation: float 6s ease-in-out infinite, fadeIn 2s ease-out;
+      position: relative;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+    audio {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      opacity: 0.8;
+      z-index: 2;
+    }
+    #danceGif {
+      position: fixed;
+      bottom: 10px;
+      width: 48px;
+      z-index: 1;
+      left: 10px;
+    }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #ffffff;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.8;
+      animation-name: fallSnow;
+      animation-timing-function: linear;
+    }
+    @keyframes fallSnow { to { transform: translateY(100vh); } }
+    .ash {
+      position: fixed;
+      top: -5px;
+      background: rgba(120, 120, 120, 0.7);
+      border-radius: 50%;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation-name: fallAsh;
+      animation-timing-function: linear;
+    }
+    @keyframes fallAsh { to { transform: translate(20px, 100vh); opacity: 0; } }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" src="music.mp3" controls></audio>
+  <div class="container">
+    <img class="main" src="dencore-slide.png" alt="DENCORE VIBES aesthetic" />
+  </div>
+  <img id="danceGif" src="NZG.gif" alt="Dancer GIF" />
+
+  <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      // Ghost cursor
+      new cursoreffects.ghostCursor({ num: 5, lifetime: 4000, size: 15, velocity: 0.15 });
+
+      // Snow and Ash effects
+      function createSnowflake() {
+        const snow = document.createElement('div');
+        snow.className = 'snowflake';
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.fontSize = Math.random() * 10 + 10 + 'px';
+        const dur = Math.random() * 5 + 5;
+        snow.style.animationDuration = dur + 's';
+        snow.textContent = '❄';
+        document.body.appendChild(snow);
+        setTimeout(() => snow.remove(), dur * 1000);
+      }
+      function createAsh() {
+        const ash = document.createElement('div');
+        ash.className = 'ash';
+        const size = Math.random() * 4 + 2;
+        ash.style.width = size + 'px';
+        ash.style.height = size + 'px';
+        ash.style.left = Math.random() * 100 + 'vw';
+        const dur = Math.random() * 3 + 3;
+        ash.style.animationDuration = dur + 's';
+        document.body.appendChild(ash);
+        setTimeout(() => ash.remove(), dur * 1000);
+      }
+      setInterval(createSnowflake, 200);
+      setInterval(createAsh, 150);
+
+      const audio = document.getElementById('bgMusic');
+      const gif = document.getElementById('danceGif');
+      function syncGif() {
+        const duration = audio.duration;
+        if (duration > 0) {
+          const pct = audio.currentTime / duration;
+          const maxLeft = window.innerWidth - gif.clientWidth - 10;
+          gif.style.left = (10 + pct * maxLeft) + 'px';
+        }
+      }
+      // Sync on load and progress
+      audio.addEventListener('loadedmetadata', syncGif);
+      audio.addEventListener('timeupdate', syncGif);
+      // Pause: freeze position (no extra code needed, syncGif won't be called)
+      // Play: resume automatically via timeupdate
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
